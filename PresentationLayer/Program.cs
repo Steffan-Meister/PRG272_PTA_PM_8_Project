@@ -8,9 +8,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     internal static class Program
     {
-        /// <summary>
+
         /// The main entry point for the application.
-        /// </summary>
+
         [STAThread]
         static void Main()
         {

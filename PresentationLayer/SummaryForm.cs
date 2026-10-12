@@ -6,23 +6,23 @@ using Bll = Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLay
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
-    /// <summary>
+   
     /// Feature 5: displays the calculated summary values in read-only labels.
-    /// </summary>
+
     public partial class SummaryForm : Form
     {
-        /// <summary>
+        
         /// Creates the form and fills it with the supplied report.
-        /// </summary>
+        
         public SummaryForm(SummaryReport report)
         {
             InitializeComponent();
             Populate(report);
         }
 
-        /// <summary>
+        
         /// Writes the report values into the labels and builds one row per status.
-        /// </summary>
+       
         private void Populate(SummaryReport report)
         {
             if (report == null)
@@ -67,7 +67,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
-        /// <summary>Closes the summary form.</summary>
+        /// Closes the summary form.
         private void btnClose_Click(object sender, System.EventArgs e)
         {
             Close();

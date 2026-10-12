@@ -377,9 +377,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             txtAnimalId.Focus();
         }
 
-        /// <summary>
+       
         /// Applies the Add/edit mode rules to the buttons and the ID box.
-        /// </summary>
+        
         private void UpdateButtonStates()
         {
             txtAnimalId.ReadOnly = _isEditMode;
@@ -387,9 +387,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             btnSaveChanges.Enabled = _isEditMode;
         }
 
-        /// <summary>
+        
         /// Puts the cursor back in the field named by a validation result.
-        /// </summary>
+        
         private void FocusField(AnimalField field)
         {
             switch (field)
@@ -412,9 +412,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
-        /// <summary>
+       
         /// Builds the confirmation text that always shows the status and housing unit.
-        /// </summary>
+        
         private static string BuildClassificationMessage(string heading, Animal animal)
         {
             return string.Format(

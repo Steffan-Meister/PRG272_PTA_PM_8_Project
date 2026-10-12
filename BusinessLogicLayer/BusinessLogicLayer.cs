@@ -7,7 +7,7 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 {
-    /// <summary>
+    
     /// Business rules for all features: validation, the single classification
     /// method, add/update/delete and the summary report.
     ///
@@ -31,7 +31,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
     ///   Reptile           -> Reptile Habitat
     ///   Mammal            -> Mammal Enclosure
     ///   anything else     -> General Enclosure
-    /// </summary>
+    
     public class BusinessLogicLayer
     {
         public const int MinAge = 0;
@@ -39,7 +39,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public const int MinRecoveryScore = 0;
         public const int MaxRecoveryScore = 100;
 
-        /// <summary>The five statuses used by the classification method and the summary.</summary>
+        /// The five statuses used by the classification method and the summary.</summary>
         public static readonly string[] Statuses =
         {
             "Critical",
@@ -51,17 +51,16 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 
         private readonly DataHandler _dataHandler;
 
-        /// <summary>
+        
         /// Creates the business layer with a default data handler.
-        /// </summary>
+
         public BusinessLogicLayer()
             : this(new DataHandler())
         {
         }
 
-        /// <summary>
         /// Creates the business layer with the supplied data handler (used for testing).
-        /// </summary>
+        
         public BusinessLogicLayer(DataHandler dataHandler)
         {
             if (dataHandler == null)
@@ -70,10 +69,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             _dataHandler = dataHandler;
         }
 
-        /// <summary>
         /// The single classification method. Works out the status from the
         /// recovery score and the housing unit from the status and species.
-        /// </summary>
+        
         public static void Classify(int recoveryScore, string species, out string status, out string housingUnit)
         {
             if (recoveryScore < MinRecoveryScore || recoveryScore > MaxRecoveryScore)
@@ -104,26 +102,26 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 housingUnit = "General Enclosure";
         }
 
-        /// <summary>
+        
         /// Validates the Add Animal form (including ID uniqueness).
-        /// </summary>
+       
         public ValidationResult Validate(string animalId, string name, string species, string ageText, string recoveryScoreText)
         {
             return Validate(animalId, name, species, ageText, recoveryScoreText, true);
         }
 
-        /// <summary>
+
         /// Validates an edit. Same rules as Add, but the ID is not re-checked for
         /// uniqueness because it cannot change.
-        /// </summary>
+        
         public ValidationResult ValidateForUpdate(string animalId, string name, string species, string ageText, string recoveryScoreText)
         {
             return Validate(animalId, name, species, ageText, recoveryScoreText, false);
         }
 
-        /// <summary>
+
         /// Shared validation used by Add and Update.
-        /// </summary>
+        
         private ValidationResult Validate(string animalId, string name, string species, string ageText, string recoveryScoreText, bool checkUniqueness)
         {
             string id = (animalId ?? string.Empty).Trim();
@@ -155,9 +153,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return ValidationResult.Valid();
         }
 
-        /// <summary>
+
         /// Classifies a new animal and appends it to animals.txt.
-        /// </summary>
+        
         public Animal AddAnimal(string animalId, string name, string species, int age, int recoveryScore)
         {
             string status;
@@ -177,9 +175,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return animal;
         }
 
-        /// <summary>
+        
         /// Reclassifies an edited animal and rewrites its line in animals.txt.
-        /// </summary>
+        
         public Animal UpdateAnimal(string originalAnimalId, string animalId, string name, string species, int age, int recoveryScore)
         {
             string status;
@@ -199,17 +197,17 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return animal;
         }
 
-        /// <summary>
+       
         /// Deletes the record with the given ID from animals.txt.
-        /// </summary>
+        
         public void DeleteAnimal(string animalId)
         {
             _dataHandler.DeleteAnimal(animalId);
         }
 
-        /// <summary>
+       
         /// Finds an animal by exact (case-insensitive) ID, or null when not found.
-        /// </summary>
+        
         public Animal FindById(string animalId)
         {
             if (string.IsNullOrWhiteSpace(animalId))
@@ -225,18 +223,18 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return null;
         }
 
-        /// <summary>
+        
         /// Returns every stored animal so the grid can be refreshed.
-        /// </summary>
+        
         public List<Animal> GetAllAnimals()
         {
             return _dataHandler.GetAllAnimals();
         }
 
-        /// <summary>
+        
         /// Calculates the summary values from the records currently in animals.txt.
         /// Handles the empty-data case without crashing.
-        /// </summary>
+        
         public SummaryReport GenerateSummary()
         {
             List<Animal> animals = _dataHandler.GetAllAnimals();
@@ -269,17 +267,17 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return report;
         }
 
-        /// <summary>
+       
         /// Saves the summary report to summary.txt.
-        /// </summary>
+        
         public void SaveSummaryReport(SummaryReport report)
         {
             _dataHandler.WriteSummary(FormatSummaryText(report));
         }
 
-        /// <summary>
+        
         /// Builds the text layout for summary.txt (assumed layout, Section 5.2).
-        /// </summary>
+        
         public static string FormatSummaryText(SummaryReport report)
         {
             if (report == null)
@@ -315,9 +313,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return builder.ToString();
         }
 
-        /// <summary>
+        
         /// Parses a whole number, rejecting blanks, decimals, signs and letters.
-        /// </summary>
+        
         private static bool TryParseWholeNumber(string text, out int value)
         {
             value = 0;
@@ -336,7 +334,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return true;
         }
 
-        /// <summary>Returns true when the species looks like a bird.</summary>
+        /// Returns true when the species looks like a bird.</summary>
         private static bool IsBird(string species)
         {
             return ContainsAny(species, "bird", "avian", "owl", "eagle", "hawk", "falcon", "kite",
@@ -344,7 +342,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 "sparrow", "weaver", "barbet", "hornbill", "guineafowl", "francolin", "bustard");
         }
 
-        /// <summary>Returns true when the species looks like a reptile.</summary>
+        /// Returns true when the species looks like a reptile.</summary>
         private static bool IsReptile(string species)
         {
             return ContainsAny(species, "reptile", "snake", "lizard", "gecko", "chameleon",
@@ -352,7 +350,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 "cobra", "adder", "skink", "agamid");
         }
 
-        /// <summary>Returns true when the species looks like a mammal.</summary>
+        /// Returns true when the species looks like a mammal.</summary>
         private static bool IsMammal(string species)
         {
             return ContainsAny(species, "mammal", "lion", "leopard", "cheetah", "caracal", "serval",
@@ -363,10 +361,10 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 "porcupine", "hare", "rabbit", "rat", "mouse", "shrew", "clawless otter");
         }
 
-        /// <summary>
+
         /// Returns true when any of the given keywords appears in the value
         /// (case-insensitive).
-        /// </summary>
+        
         private static bool ContainsAny(string value, params string[] keywords)
         {
             if (string.IsNullOrWhiteSpace(value))

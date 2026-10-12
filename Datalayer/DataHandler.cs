@@ -6,7 +6,7 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 {
-    /// <summary>
+   
     /// Reads and writes animal records in animals.txt, and writes summary.txt.
     /// animals.txt is pipe delimited with a header row and lives in the
     /// application folder:
@@ -15,7 +15,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
     /// Every file operation is wrapped so that missing files/folders, files in
     /// use (IOException) and permission problems (UnauthorizedAccessException)
     /// surface as a friendly <see cref="DataFileException"/> the UI can show.
-    /// </summary>
+    
     public class DataHandler
     {
         private const string Delimiter = "|";
@@ -26,18 +26,17 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
         private readonly string _filePath;
         private readonly string _summaryPath;
 
-        /// <summary>
+        
         /// Creates a handler that uses animals.txt in the application folder.
-        /// </summary>
+        
         public DataHandler()
             : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AnimalsFileName))
         {
         }
 
-        /// <summary>
         /// Creates a handler that uses the given animals.txt path. The summary
         /// file is written next to it.
-        /// </summary>
+        
         public DataHandler(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
@@ -51,15 +50,15 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
                 : Path.Combine(folder, SummaryFileName);
         }
 
-        /// <summary>Full path of the animals.txt file in use.</summary>
+        ///Full path of the animals.txt file in use.</summary>
         public string FilePath
         {
             get { return _filePath; }
         }
 
-        /// <summary>
+
         /// Creates animals.txt (with its header row) if it does not exist yet.
-        /// </summary>
+
         public void EnsureFileExists()
         {
             if (!File.Exists(_filePath))
@@ -68,9 +67,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }
         }
 
-        /// <summary>
+        
         /// Returns every valid animal currently stored in the file, in file order.
-        /// </summary>
+
         public List<Animal> GetAllAnimals()
         {
             return Execute(delegate
@@ -110,9 +109,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }, "loading the animal records");
         }
 
-        /// <summary>
+
         /// Returns true when an animal with the given ID already exists.
-        /// </summary>
+        
         public bool AnimalIdExists(string animalId)
         {
             if (string.IsNullOrWhiteSpace(animalId))
@@ -128,9 +127,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             return false;
         }
 
-        /// <summary>
+        
         /// Appends a single new line to animals.txt, leaving existing lines untouched.
-        /// </summary>
+        
         public void AppendAnimal(Animal animal)
         {
             if (animal == null)
@@ -143,10 +142,10 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }, "saving the animal record");
         }
 
-        /// <summary>
+        
         /// Rewrites animals.txt, replacing only the record with
         /// <paramref name="originalAnimalId"/>. All other lines are kept exactly as-is.
-        /// </summary>
+        
         public void UpdateAnimal(string originalAnimalId, Animal updatedAnimal)
         {
             if (updatedAnimal == null)
@@ -180,10 +179,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }, "updating the animal record");
         }
 
-        /// <summary>
         /// Rewrites animals.txt, removing only the record with the given ID.
         /// All other lines are kept exactly as-is.
-        /// </summary>
+        
         public void DeleteAnimal(string animalId)
         {
             Execute(delegate
@@ -223,9 +221,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }, "writing the summary report");
         }
 
-        /// <summary>
+        
         /// Returns true when the given raw file line belongs to the given Animal ID.
-        /// </summary>
+        
         private static bool IsRecordFor(string line, string animalId)
         {
             if (string.IsNullOrWhiteSpace(line) || string.IsNullOrWhiteSpace(animalId))
@@ -242,9 +240,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             return string.Equals(first, animalId.Trim(), StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
+
         /// Formats an animal as one pipe-delimited line.
-        /// </summary>
+
         private static string FormatLine(Animal animal)
         {
             return string.Join(Delimiter, new[]
@@ -259,9 +257,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             });
         }
 
-        /// <summary>
+        
         /// Removes characters that would break the pipe-delimited format.
-        /// </summary>
+        
         private static string Sanitize(string value)
         {
             if (value == null)
@@ -274,10 +272,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
                 .Trim();
         }
 
-        /// <summary>
         /// Runs a file operation and converts any failure into a friendly
         /// <see cref="DataFileException"/>.
-        /// </summary>
+      
         private void Execute(Action operation, string description)
         {
             try
@@ -315,10 +312,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }
         }
 
-        /// <summary>
         /// Runs a file operation that returns a value and converts any failure
         /// into a friendly <see cref="DataFileException"/>.
-        /// </summary>
+        
         private T Execute<T>(Func<T> operation, string description)
         {
             try
