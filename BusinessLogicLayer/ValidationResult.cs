@@ -3,8 +3,7 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 {
    
-    /// Outcome of validating the Add Animal form. When <see cref="IsValid"/> is
-    /// false, <see cref="Field"/> names the field in error and <see cref="Message"/>
+   
     /// explains the problem.
     
     public class ValidationResult
@@ -14,7 +13,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public string Message { get; private set; }
 
        
-        /// Private constructor; use <see cref="Valid"/> or <see cref="Invalid"/>.
+        /// Private constructor; 
 
         private ValidationResult(bool isValid, AnimalField field, string message)
         {

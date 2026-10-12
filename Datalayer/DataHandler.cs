@@ -6,15 +6,7 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 {
-   
-    /// Reads and writes animal records in animals.txt, and writes summary.txt.
-    /// animals.txt is pipe delimited with a header row and lives in the
-    /// application folder:
-    /// AnimalID|Name|Species|Age|RecoveryScore|Status|HousingUnit
-    ///
-    /// Every file operation is wrapped so that missing files/folders, files in
-    /// use (IOException) and permission problems (UnauthorizedAccessException)
-    /// surface as a friendly <see cref="DataFileException"/> the UI can show.
+
     
     public class DataHandler
     {

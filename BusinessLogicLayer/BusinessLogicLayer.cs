@@ -7,30 +7,8 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 {
-    
-    /// Business rules for all features: validation, the single classification
-    /// method, add/update/delete and the summary report.
-    ///
-    /// Assumed defaults (Sections 3, 4 and 5.2 were not provided):
-    ///   Animal ID      - required and unique (uniqueness is skipped on update).
-    ///   Name           - required.
-    ///   Species        - required.
-    ///   Age            - whole number between 0 and 100.
-    ///   Recovery Score - whole number between 0 and 100.
-    ///
-    /// Classification (Recovery Score -> Status) uses five statuses:
-    ///   0-20   -> Critical
-    ///   21-40  -> Stable
-    ///   41-60  -> Recovering
-    ///   61-80  -> Improving
-    ///   81-100 -> Ready for Release
-    ///
-    /// Housing unit (from Status and Species):
-    ///   Critical          -> Intensive Care Unit
-    ///   Bird/Avian        -> Aviary
-    ///   Reptile           -> Reptile Habitat
-    ///   Mammal            -> Mammal Enclosure
-    ///   anything else     -> General Enclosure
+  
+
     
     public class BusinessLogicLayer
     {
