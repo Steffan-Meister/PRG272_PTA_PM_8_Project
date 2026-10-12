@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Baobab Ridge Wildlife Rehabilitation Records System.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "run",
+            "dependsOn": "build",
+            "command": "${workspaceFolder}/bin/Debug/Baobab Ridge Wildlife Rehabilitation Records System.exe",
+            "type": "process",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "clean",
+                "${workspaceFolder}/Baobab Ridge Wildlife Rehabilitation Records System.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
