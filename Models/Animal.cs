@@ -33,17 +33,4 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models
         }
 
        
-        /// Creates an animal with all of its values set.
         
-        public Animal(string animalId, string name, string species, int age, int recoveryScore, string status, string housingUnit)
-        {
-            AnimalID = animalId;
-            Name = name;
-            Species = species;
-            Age = age;
-            RecoveryScore = recoveryScore;
-            Status = status;
-            HousingUnit = housingUnit;
-        }
-    }
-}

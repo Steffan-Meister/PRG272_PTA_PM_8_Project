@@ -2,345 +2,304 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 {
-
-    
+    /// Handles all file I/O for animals.txt and summary.txt. Wraps IO errors in
+    /// DataFileException so the UI can show friendly messages.
+   
     public class DataHandler
     {
-        private const string Delimiter = "|";
-        private const string Header = "AnimalID|Name|Species|Age|RecoveryScore|Status|HousingUnit";
         private const string AnimalsFileName = "animals.txt";
         private const string SummaryFileName = "summary.txt";
 
-        private readonly string _filePath;
+        private readonly string _animalsPath;
         private readonly string _summaryPath;
 
-        
-        /// Creates a handler that uses animals.txt in the application folder.
-        
         public DataHandler()
-            : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AnimalsFileName))
         {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory ?? Environment.CurrentDirectory;
+            _animalsPath = Path.Combine(baseDir, AnimalsFileName);
+            _summaryPath = Path.Combine(baseDir, SummaryFileName);
+
+            EnsureAnimalsFileExists();
         }
 
-        /// Creates a handler that uses the given animals.txt path. The summary
-        /// file is written next to it.
-        
-        public DataHandler(string filePath)
+        private void EnsureAnimalsFileExists()
         {
-            if (string.IsNullOrWhiteSpace(filePath))
-                throw new ArgumentException("A file path is required.", "filePath");
-
-            _filePath = filePath;
-
-            string folder = Path.GetDirectoryName(filePath);
-            _summaryPath = string.IsNullOrEmpty(folder)
-                ? SummaryFileName
-                : Path.Combine(folder, SummaryFileName);
-        }
-
-        ///Full path of the animals.txt file in use.</summary>
-        public string FilePath
-        {
-            get { return _filePath; }
-        }
-
-
-        /// Creates animals.txt (with its header row) if it does not exist yet.
-
-        public void EnsureFileExists()
-        {
-            if (!File.Exists(_filePath))
+            try
             {
-                File.WriteAllText(_filePath, Header + Environment.NewLine);
-            }
-        }
-
-        
-        /// Returns every valid animal currently stored in the file, in file order.
-
-        public List<Animal> GetAllAnimals()
-        {
-            return Execute(delegate
-            {
-                List<Animal> animals = new List<Animal>();
-                EnsureFileExists();
-
-                foreach (string line in File.ReadAllLines(_filePath))
+                if (!File.Exists(_animalsPath))
                 {
-                    if (string.IsNullOrWhiteSpace(line))
-                        continue;
+                    
+                    string dir = Path.GetDirectoryName(_animalsPath);
+                    if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
 
-                    string[] parts = line.Split(new[] { Delimiter }, StringSplitOptions.None);
-                    if (parts.Length < 7)
-                        continue;
-
-                    // Skip the header row (it appears once, but tolerate it anywhere).
-                    if (string.Equals(parts[0].Trim(), "AnimalID", StringComparison.OrdinalIgnoreCase))
-                        continue;
-
-                    int age;
-                    int recoveryScore;
-                    int.TryParse(parts[3].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out age);
-                    int.TryParse(parts[4].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out recoveryScore);
-
-                    animals.Add(new Animal(
-                        parts[0].Trim(),
-                        parts[1].Trim(),
-                        parts[2].Trim(),
-                        age,
-                        recoveryScore,
-                        parts[5].Trim(),
-                        parts[6].Trim()));
+                    // Write header row
+                    File.WriteAllText(_animalsPath, "AnimalID|Name|Species|Age|RecoveryScore|Status|HousingUnit" + Environment.NewLine, Encoding.UTF8);
                 }
-
-                return animals;
-            }, "loading the animal records");
-        }
-
-
-        /// Returns true when an animal with the given ID already exists.
-        
-        public bool AnimalIdExists(string animalId)
-        {
-            if (string.IsNullOrWhiteSpace(animalId))
-                return false;
-
-            string target = animalId.Trim();
-            foreach (Animal animal in GetAllAnimals())
-            {
-                if (string.Equals(animal.AnimalID, target, StringComparison.OrdinalIgnoreCase))
-                    return true;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to create the animals data file.", ex);
+            }
         }
 
-        
-        /// Appends a single new line to animals.txt, leaving existing lines untouched.
         
         public void AppendAnimal(Animal animal)
         {
             if (animal == null)
                 throw new ArgumentNullException("animal");
 
-            Execute(delegate
+            EnsureAnimalsFileExists();
+
+            string line = BuildLine(animal);
+
+            try
             {
-                EnsureFileExists();
-                File.AppendAllText(_filePath, FormatLine(animal) + Environment.NewLine);
-            }, "saving the animal record");
+                // Append with exclusive lock to reduce risk of concurrent corruption.
+                using (FileStream fs = new FileStream(_animalsPath, FileMode.Append, FileAccess.Write, FileShare.None))
+                using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    sw.WriteLine(line);
+                    sw.Flush();
+                    fs.Flush(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to append the animal to the data file.", ex);
+            }
         }
 
-        
-        /// Rewrites animals.txt, replacing only the record with
-        /// <paramref name="originalAnimalId"/>. All other lines are kept exactly as-is.
-        
-        public void UpdateAnimal(string originalAnimalId, Animal updatedAnimal)
+        public bool AnimalIdExists(string animalId)
         {
-            if (updatedAnimal == null)
-                throw new ArgumentNullException("updatedAnimal");
+            if (string.IsNullOrWhiteSpace(animalId))
+                return false;
 
-            Execute(delegate
+            try
             {
-                EnsureFileExists();
+                var all = GetAllAnimals();
+                return all.Any(a => string.Equals(a.AnimalID, animalId.Trim(), StringComparison.OrdinalIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to read the data file to check for an existing Animal ID.", ex);
+            }
+        }
 
-                List<string> output = new List<string>();
-                bool replaced = false;
+        public List<Animal> GetAllAnimals()
+        {
+            try
+            {
+                EnsureAnimalsFileExists();
 
-                foreach (string line in File.ReadAllLines(_filePath))
+                var lines = File.ReadAllLines(_animalsPath, Encoding.UTF8);
+                var result = new List<Animal>();
+
+                if (lines == null || lines.Length == 0)
+                    return result;
+
+                
+                int start = 0;
+                if (lines.Length > 0 && lines[0].StartsWith("AnimalID"))
+                    start = 1;
+
+                for (int i = start; i < lines.Length; i++)
                 {
-                    if (!replaced && IsRecordFor(line, originalAnimalId))
+                    string line = lines[i];
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    string[] parts = line.Split('|');
+                    if (parts.Length < 7)
+                        continue; 
+
+                    int age;
+                    int score;
+                    if (!int.TryParse(parts[3], NumberStyles.None, CultureInfo.InvariantCulture, out age))
+                        continue;
+                    if (!int.TryParse(parts[4], NumberStyles.None, CultureInfo.InvariantCulture, out score))
+                        continue;
+
+                    var animal = new Animal
                     {
-                        output.Add(FormatLine(updatedAnimal));
-                        replaced = true;
-                    }
-                    else
+                        AnimalID = parts[0],
+                        Name = parts[1],
+                        Species = parts[2],
+                        Age = age,
+                        RecoveryScore = score,
+                        Status = parts[5],
+                        HousingUnit = parts[6]
+                    };
+
+                    result.Add(animal);
+                }
+
+                return result;
+            }
+            catch (DataFileException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to read the animals data file.", ex);
+            }
+        }
+
+        public void UpdateAnimal(string originalAnimalId, Animal updated)
+        {
+            if (string.IsNullOrWhiteSpace(originalAnimalId))
+                throw new ArgumentNullException("originalAnimalId");
+            if (updated == null)
+                throw new ArgumentNullException("updated");
+
+            try
+            {
+                EnsureAnimalsFileExists();
+
+                var lines = File.ReadAllLines(_animalsPath, Encoding.UTF8).ToList();
+                if (lines.Count == 0)
+                    throw new DataFileException("Data file is empty.");
+
+                int startIndex = lines[0].StartsWith("AnimalID") ? 1 : 0;
+                bool found = false;
+
+                for (int i = startIndex; i < lines.Count; i++)
+                {
+                    var cols = lines[i].Split('|');
+                    if (cols.Length < 1)
+                        continue;
+                    if (string.Equals(cols[0].Trim(), originalAnimalId.Trim(), StringComparison.OrdinalIgnoreCase))
                     {
-                        output.Add(line);
+                        lines[i] = BuildLine(updated);
+                        found = true;
+                        break;
                     }
                 }
 
-                if (!replaced)
-                    throw new DataFileException(
-                        string.Format("Animal ID '{0}' could not be found, so it was not updated.", originalAnimalId));
+                if (!found)
+                    throw new DataFileException(string.Format(CultureInfo.InvariantCulture, "Animal ID '{0}' not found.", originalAnimalId));
 
-                File.WriteAllLines(_filePath, output);
-            }, "updating the animal record");
+                WriteLinesAtomically(lines);
+            }
+            catch (DataFileException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to update the animal record.", ex);
+            }
         }
 
-        /// Rewrites animals.txt, removing only the record with the given ID.
-        /// All other lines are kept exactly as-is.
-        
         public void DeleteAnimal(string animalId)
         {
-            Execute(delegate
-            {
-                EnsureFileExists();
+            if (string.IsNullOrWhiteSpace(animalId))
+                throw new ArgumentNullException("animalId");
 
-                List<string> output = new List<string>();
+            try
+            {
+                EnsureAnimalsFileExists();
+
+                var lines = File.ReadAllLines(_animalsPath, Encoding.UTF8).ToList();
+                if (lines.Count == 0)
+                    return;
+
+                int startIndex = lines[0].StartsWith("AnimalID") ? 1 : 0;
                 bool removed = false;
 
-                foreach (string line in File.ReadAllLines(_filePath))
+                for (int i = startIndex; i < lines.Count; i++)
                 {
-                    if (!removed && IsRecordFor(line, animalId))
-                    {
-                        removed = true;
+                    var cols = lines[i].Split('|');
+                    if (cols.Length < 1)
                         continue;
+                    if (string.Equals(cols[0].Trim(), animalId.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        lines.RemoveAt(i);
+                        removed = true;
+                        break;
                     }
-
-                    output.Add(line);
                 }
 
-                if (!removed)
-                    throw new DataFileException(
-                        string.Format("Animal ID '{0}' could not be found, so nothing was deleted.", animalId));
-
-                File.WriteAllLines(_filePath, output);
-            }, "deleting the animal record");
-        }
-
-        /// <summary>
-        /// Writes the summary report text to summary.txt in the application folder.
-        /// </summary>
-        public void WriteSummary(string content)
-        {
-            Execute(delegate
-            {
-                File.WriteAllText(_summaryPath, content ?? string.Empty);
-            }, "writing the summary report");
-        }
-
-        
-        /// Returns true when the given raw file line belongs to the given Animal ID.
-        
-        private static bool IsRecordFor(string line, string animalId)
-        {
-            if (string.IsNullOrWhiteSpace(line) || string.IsNullOrWhiteSpace(animalId))
-                return false;
-
-            string[] parts = line.Split(new[] { Delimiter }, StringSplitOptions.None);
-            if (parts.Length < 7)
-                return false;
-
-            string first = parts[0].Trim();
-            if (string.Equals(first, "AnimalID", StringComparison.OrdinalIgnoreCase))
-                return false;
-
-            return string.Equals(first, animalId.Trim(), StringComparison.OrdinalIgnoreCase);
-        }
-
-
-        /// Formats an animal as one pipe-delimited line.
-
-        private static string FormatLine(Animal animal)
-        {
-            return string.Join(Delimiter, new[]
-            {
-                Sanitize(animal.AnimalID),
-                Sanitize(animal.Name),
-                Sanitize(animal.Species),
-                animal.Age.ToString(CultureInfo.InvariantCulture),
-                animal.RecoveryScore.ToString(CultureInfo.InvariantCulture),
-                Sanitize(animal.Status),
-                Sanitize(animal.HousingUnit)
-            });
-        }
-
-        
-        /// Removes characters that would break the pipe-delimited format.
-        
-        private static string Sanitize(string value)
-        {
-            if (value == null)
-                return string.Empty;
-
-            return value
-                .Replace(Delimiter, "/")
-                .Replace("\r", " ")
-                .Replace("\n", " ")
-                .Trim();
-        }
-
-        /// Runs a file operation and converts any failure into a friendly
-        /// <see cref="DataFileException"/>.
-      
-        private void Execute(Action operation, string description)
-        {
-            try
-            {
-                operation();
+                if (removed)
+                    WriteLinesAtomically(lines);
             }
             catch (DataFileException)
             {
                 throw;
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                throw new DataFileException(
-                    "Permission was denied while " + description + ". The file may be read-only or in use by another user. Close it or check its permissions and try again.", ex);
-            }
-            catch (DirectoryNotFoundException ex)
-            {
-                throw new DataFileException(
-                    "The folder for the data file was not found. Ensure the application folder exists and try again.", ex);
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new DataFileException(
-                    "The data file could not be found: " + _filePath, ex);
-            }
-            catch (IOException ex)
-            {
-                throw new DataFileException(
-                    "The data file is in use by another program. Close it and try again.", ex);
-            }
             catch (Exception ex)
             {
-                throw new DataFileException(
-                    "An unexpected error occurred while " + description + ": " + ex.Message, ex);
+                throw new DataFileException("Unable to delete the animal record.", ex);
             }
         }
 
-        /// Runs a file operation that returns a value and converts any failure
-        /// into a friendly <see cref="DataFileException"/>.
-        
-        private T Execute<T>(Func<T> operation, string description)
+        private void WriteLinesAtomically(List<string> lines)
         {
+            string temp = _animalsPath + ".tmp";
             try
             {
-                return operation();
+                File.WriteAllLines(temp, lines, Encoding.UTF8);
+
+                // Use Replace when possible to preserve metadata; fallback to Move
+                if (File.Exists(_animalsPath))
+                {
+                    File.Replace(temp, _animalsPath, null);
+                }
+                else
+                {
+                    File.Move(temp, _animalsPath);
+                }
+
             }
-            catch (DataFileException)
+            catch (PlatformNotSupportedException)
             {
-                throw;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                throw new DataFileException(
-                    "Permission was denied while " + description + ". The file may be read-only or in use by another user. Close it or check its permissions and try again.", ex);
-            }
-            catch (DirectoryNotFoundException ex)
-            {
-                throw new DataFileException(
-                    "The folder for the data file was not found. Ensure the application folder exists and try again.", ex);
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new DataFileException(
-                    "The data file could not be found: " + _filePath, ex);
-            }
-            catch (IOException ex)
-            {
-                throw new DataFileException(
-                    "The data file is in use by another program. Close it and try again.", ex);
+              
+                if (File.Exists(_animalsPath))
+                    File.Delete(_animalsPath);
+                File.Move(temp, _animalsPath);
             }
             catch (Exception ex)
             {
-                throw new DataFileException(
-                    "An unexpected error occurred while " + description + ": " + ex.Message, ex);
+                
+                try { if (File.Exists(temp)) File.Delete(temp); } catch { }
+                throw new DataFileException("Unable to write the data file.", ex);
+            }
+
+        }
+
+        private static string BuildLine(Animal a)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                (a.AnimalID ?? string.Empty).Trim(),
+                (a.Name ?? string.Empty).Trim(),
+                (a.Species ?? string.Empty).Trim(),
+                a.Age.ToString(CultureInfo.InvariantCulture),
+                a.RecoveryScore.ToString(CultureInfo.InvariantCulture),
+                (a.Status ?? string.Empty).Trim(),
+                (a.HousingUnit ?? string.Empty).Trim());
+        }
+
+
+        public void WriteSummary(string text)
+        {
+            try
+            {
+                string dir = Path.GetDirectoryName(_summaryPath);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                File.WriteAllText(_summaryPath, text ?? string.Empty, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                throw new DataFileException("Unable to write the summary file.", ex);
             }
         }
     }

@@ -7,7 +7,7 @@ using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 {
-  
+
 
     
     public class BusinessLogicLayer
@@ -17,7 +17,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public const int MinRecoveryScore = 0;
         public const int MaxRecoveryScore = 100;
 
-        /// The five statuses used by the classification method and the summary.</summary>
+
         public static readonly string[] Statuses =
         {
             "Critical",
@@ -29,8 +29,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 
         private readonly DataHandler _dataHandler;
 
-        
-        /// Creates the business layer with a default data handler.
+
+
 
         public BusinessLogicLayer()
             : this(new DataHandler())
@@ -47,7 +47,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             _dataHandler = dataHandler;
         }
 
-        /// The single classification method. Works out the status from the
+
         /// recovery score and the housing unit from the status and species.
         
         public static void Classify(int recoveryScore, string species, out string status, out string housingUnit)
@@ -106,7 +106,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             if (id.Length == 0)
                 return ValidationResult.Invalid(AnimalField.AnimalID, "Animal ID is required.");
             if (checkUniqueness && _dataHandler.AnimalIdExists(id))
-                return ValidationResult.Invalid(AnimalField.AnimalID, string.Format("Animal ID '{0}' already exists.", id));
+                return ValidationResult.Invalid(AnimalField.AnimalID, "Animal ID must be unique.");
 
             if (string.IsNullOrWhiteSpace(name))
                 return ValidationResult.Invalid(AnimalField.Name, "Name is required.");
