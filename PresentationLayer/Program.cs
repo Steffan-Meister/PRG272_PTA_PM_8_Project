@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.PresentationLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,15 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     internal static class Program
     {
-
-       
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new frmMain());
+        }
     }
 }

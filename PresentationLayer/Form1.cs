@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
-using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer;
-using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer;
-using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Models;
-using Bll = Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer.BusinessLogicLayer;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     public partial class frmMain : Form
 
     {
-        private void Form1_Load(object sender, EventArgs e)
+        public frmMain()
         {
+            InitializeComponent();
         }
 
         private void InitializeComponent()
@@ -55,7 +52,6 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.txtAnimalID.Name = "txtAnimalID";
             this.txtAnimalID.Size = new System.Drawing.Size(161, 22);
             this.txtAnimalID.TabIndex = 5;
-            this.txtAnimalID.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // txtAge
             // 
@@ -144,7 +140,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(33, 9);
+            this.label6.Location = new System.Drawing.Point(55, 19);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(666, 46);
             this.label6.TabIndex = 6;
@@ -223,11 +219,6 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
         }
     }
