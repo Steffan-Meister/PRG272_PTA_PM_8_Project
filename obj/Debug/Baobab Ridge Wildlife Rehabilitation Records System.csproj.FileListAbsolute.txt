@@ -8,3 +8,14 @@ C:\Users\user\Documents\PRG272\Project\obj\Debug\Baobab Ridge Wildlife Rehabilit
 C:\Users\user\Documents\PRG272\Project\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.CoreCompileInputs.cache
 C:\Users\user\Documents\PRG272\Project\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
 C:\Users\user\Documents\PRG272\Project\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.frmMain.resources
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.PresentationLayer.frmSummary.resources
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Properties.Resources.resources
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.GenerateResource.cache
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
+C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
