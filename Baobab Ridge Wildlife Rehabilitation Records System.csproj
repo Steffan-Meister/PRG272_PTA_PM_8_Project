@@ -48,28 +48,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogicLayer\Animal.cs" />
     <Compile Include="BusinessLogicLayer\BusinessLogicLayer.cs" />
-    <Compile Include="BusinessLogicLayer\ValidationResult.cs" />
-    <Compile Include="Datalayer\DataFileException.cs" />
     <Compile Include="Datalayer\DataHandler.cs" />
-    <Compile Include="Models\Animal.cs" />
-    <Compile Include="Models\SummaryReport.cs" />
     <Compile Include="PresentationLayer\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PresentationLayer\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="PresentationLayer\Program.cs" />
-    <Compile Include="PresentationLayer\SummaryForm.cs">
+    <Compile Include="PresentationLayer\frmSummary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PresentationLayer\SummaryForm.Designer.cs">
-      <DependentUpon>SummaryForm.cs</DependentUpon>
+    <Compile Include="PresentationLayer\frmSummary.Designer.cs">
+      <DependentUpon>frmSummary.cs</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="PresentationLayer\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PresentationLayer\frmSummary.resx">
+      <DependentUpon>frmSummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

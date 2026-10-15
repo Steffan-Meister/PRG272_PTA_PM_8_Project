@@ -1,0 +1,14 @@
+Baobab Ridge Wildlife Rehabilitation Records System
+Summary Report
+Generated: 2026-10-14 06:59:18
+
+Total animals: 1
+Average age: 3.00
+Average recovery score: 20.00
+
+Animals per status:
+Critical: 1
+Stable: 0
+Recovering: 0
+Improving: 0
+Ready for Release: 0
