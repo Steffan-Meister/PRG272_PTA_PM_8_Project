@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.Remoting.Lifetime;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
@@ -11,13 +15,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         {
             InitializeComponent();
         }
+        BusinessLogic bl = new BusinessLogic();
 
         private void InitializeComponent()
         {
             this.label5 = new System.Windows.Forms.Label();
             this.txtAnimalID = new System.Windows.Forms.TextBox();
-            this.txtAge = new System.Windows.Forms.TextBox();
             this.txtSpecies = new System.Windows.Forms.TextBox();
+            this.txtAge = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -33,9 +38,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.panel2.SuspendLayout();
@@ -58,19 +63,19 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.txtAnimalID.Size = new System.Drawing.Size(150, 22);
             this.txtAnimalID.TabIndex = 5;
             // 
-            // txtAge
-            // 
-            this.txtAge.Location = new System.Drawing.Point(126, 123);
-            this.txtAge.Name = "txtAge";
-            this.txtAge.Size = new System.Drawing.Size(150, 22);
-            this.txtAge.TabIndex = 6;
-            // 
             // txtSpecies
             // 
-            this.txtSpecies.Location = new System.Drawing.Point(126, 183);
+            this.txtSpecies.Location = new System.Drawing.Point(126, 123);
             this.txtSpecies.Name = "txtSpecies";
             this.txtSpecies.Size = new System.Drawing.Size(150, 22);
-            this.txtSpecies.TabIndex = 7;
+            this.txtSpecies.TabIndex = 6;
+            // 
+            // txtAge
+            // 
+            this.txtAge.Location = new System.Drawing.Point(126, 183);
+            this.txtAge.Name = "txtAge";
+            this.txtAge.Size = new System.Drawing.Size(150, 22);
+            this.txtAge.TabIndex = 7;
             // 
             // label2
             // 
@@ -93,7 +98,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(50, 183);
+            this.label3.Location = new System.Drawing.Point(47, 127);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 16);
             this.label3.TabIndex = 2;
@@ -102,7 +107,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(68, 126);
+            this.label4.Location = new System.Drawing.Point(72, 186);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 16);
             this.label4.TabIndex = 3;
@@ -132,8 +137,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.txtSpecies);
             this.panel1.Controls.Add(this.txtAge);
+            this.panel1.Controls.Add(this.txtSpecies);
             this.panel1.Controls.Add(this.txtAnimalID);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Location = new System.Drawing.Point(11, 75);
@@ -208,6 +213,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // panel3
             // 
@@ -220,22 +226,6 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel3.Size = new System.Drawing.Size(440, 36);
             this.panel3.TabIndex = 9;
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(20, 11);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(128, 16);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Search by Animal ID";
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Location = new System.Drawing.Point(152, 8);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(166, 22);
-            this.txtSearch.TabIndex = 1;
-            // 
             // btnSearch
             // 
             this.btnSearch.Location = new System.Drawing.Point(331, 7);
@@ -244,6 +234,22 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(152, 8);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(166, 22);
+            this.txtSearch.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 16);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Search by Animal ID";
             // 
             // frmMain
             // 
@@ -264,6 +270,79 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            string animalID = txtAnimalID.Text;
+            string name = txtName.Text;
+            string species = txtSpecies.Text;
+            string age = txtAge.Text;
+            string recoveryScore = txtRecoveryScore.Text;
+
+            if (ValidateAnimal())
+            {
+                (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
+                bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+            }
+        }
+
+        private Boolean ValidateAnimal()
+        {
+            string animalID = txtAnimalID.Text;
+            string name = txtName.Text;
+            string species = txtSpecies.Text;
+            string age = txtAge.Text;
+            string recoveryScore = txtRecoveryScore.Text;
+
+            //check that animalID numeric part, age and recovery score are of type integer
+            int result;
+
+            if (animalID.Length != 7 ||
+                animalID.Substring(0, 3).ToUpper() != "WR-" || //Check character part of animal ID
+                !int.TryParse(animalID.Substring(3, 4), out result))  //Validate animalID numeric part
+
+            {
+                MessageBox.Show("Animal ID must be in format WR-0000.");
+                txtAnimalID.Focus();
+                return false;
+            }
+            else if (name.Length < 1 ||
+                    name.Length > 30 ||
+                    name.Contains("|"))
+            {
+                MessageBox.Show("Animal name must be between 1 " +
+                    "and 30 characters and my not contain the pipe (|) character.");
+                txtName.Focus();
+                return false;
+            }
+            else if (species.Length < 1 ||
+                    species.Length > 30 ||
+                    species.Contains("|"))
+            {
+                MessageBox.Show("Animal species must be between 1 " +
+                    "and 30 characters and my not contain the pipe (|) character.");
+                txtSpecies.Focus();
+                return false;
+            }
+            else if (!int.TryParse(age, out result) ||
+                    result < 0 ||
+                    result > 100)
+            {
+                MessageBox.Show("Enter animal age 0-100.");
+                txtAge.Focus();
+                return false;
+            }
+            else if(!int.TryParse(recoveryScore, out result) ||
+                    result < 0 ||
+                    result > 100)
+            {
+                MessageBox.Show("Enter recovery score 0-100.");
+                txtRecoveryScore.Focus();
+                return false;
+            }
+
+            return true;
         }
     }
 }

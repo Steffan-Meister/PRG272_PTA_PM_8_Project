@@ -1,2 +1,2 @@
-AnimalID|Name|Species|Age|RecoveryScore|Status|HousingUnit
-WR|ABC|ABC|3|20|Critical|Intensive Care Unit
+WR-0001 | Thabo | American Penguin | 2 | 65 | Recovering | Outdoor Enclosure
+WR-1234 | Name | Vulture - Cape | 20 | 100 | Release-Ready | Pre-Release Camp
