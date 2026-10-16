@@ -32,9 +32,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label5
@@ -50,21 +55,21 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // 
             this.txtAnimalID.Location = new System.Drawing.Point(123, 14);
             this.txtAnimalID.Name = "txtAnimalID";
-            this.txtAnimalID.Size = new System.Drawing.Size(161, 22);
+            this.txtAnimalID.Size = new System.Drawing.Size(150, 22);
             this.txtAnimalID.TabIndex = 5;
             // 
             // txtAge
             // 
             this.txtAge.Location = new System.Drawing.Point(126, 123);
             this.txtAge.Name = "txtAge";
-            this.txtAge.Size = new System.Drawing.Size(160, 22);
+            this.txtAge.Size = new System.Drawing.Size(150, 22);
             this.txtAge.TabIndex = 6;
             // 
             // txtSpecies
             // 
             this.txtSpecies.Location = new System.Drawing.Point(126, 183);
             this.txtSpecies.Name = "txtSpecies";
-            this.txtSpecies.Size = new System.Drawing.Size(160, 22);
+            this.txtSpecies.Size = new System.Drawing.Size(150, 22);
             this.txtSpecies.TabIndex = 7;
             // 
             // label2
@@ -108,14 +113,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // 
             this.txtRecoveryScore.Location = new System.Drawing.Point(126, 232);
             this.txtRecoveryScore.Name = "txtRecoveryScore";
-            this.txtRecoveryScore.Size = new System.Drawing.Size(160, 22);
+            this.txtRecoveryScore.Size = new System.Drawing.Size(150, 22);
             this.txtRecoveryScore.TabIndex = 8;
             // 
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(126, 65);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(160, 22);
+            this.txtName.Size = new System.Drawing.Size(150, 22);
             this.txtName.TabIndex = 9;
             // 
             // panel1
@@ -133,7 +138,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel1.Controls.Add(this.label5);
             this.panel1.Location = new System.Drawing.Point(11, 75);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(305, 280);
+            this.panel1.Size = new System.Drawing.Size(286, 280);
             this.panel1.TabIndex = 5;
             // 
             // label6
@@ -149,11 +154,11 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // dgvAnimals
             // 
             this.dgvAnimals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAnimals.Location = new System.Drawing.Point(335, 75);
+            this.dgvAnimals.Location = new System.Drawing.Point(303, 119);
             this.dgvAnimals.Name = "dgvAnimals";
             this.dgvAnimals.RowHeadersWidth = 51;
             this.dgvAnimals.RowTemplate.Height = 24;
-            this.dgvAnimals.Size = new System.Drawing.Size(408, 280);
+            this.dgvAnimals.Size = new System.Drawing.Size(440, 236);
             this.dgvAnimals.TabIndex = 7;
             // 
             // panel2
@@ -204,9 +209,46 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel3.Controls.Add(this.btnSearch);
+            this.panel3.Controls.Add(this.txtSearch);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Location = new System.Drawing.Point(303, 75);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(440, 36);
+            this.panel3.TabIndex = 9;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 16);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Search by Animal ID";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(152, 8);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(166, 22);
+            this.txtSearch.TabIndex = 1;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(331, 7);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.ClientSize = new System.Drawing.Size(755, 446);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.dgvAnimals);
             this.Controls.Add(this.label6);
@@ -217,6 +259,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
