@@ -24,7 +24,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             {
                 return ("Stable", "Recovery Ward");
             }
-            else if (recoveryScore >= 40 && recoveryScore <= 59)
+            else if (recoveryScore >= 60 && recoveryScore <= 79)
             {
                 return ("Recovering", "Outdoor Enclosure");
             }
@@ -54,6 +54,25 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 }
             }
             return true;
+        }
+
+        public Animal FindAnimal(string animalID)
+        {
+            return handler.FindByID(animalID);
+        }
+
+        public void UpdateAnimal(string animalID, string name, string species, int age, int recoveryScore)
+        {
+            var result = ClassifyAnimal(recoveryScore);
+
+            Animal a = new Animal(animalID, name, species, age, recoveryScore, result.status, result.housingUnit);
+
+            handler.Update(a);
+        }
+
+        public List<Animal> GetAllAnimals()
+        {
+            return handler.GetAll();
         }
     }
 }
