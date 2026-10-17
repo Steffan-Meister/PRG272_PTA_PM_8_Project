@@ -38,5 +38,22 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             Animal animal = new Animal(animalID, name, species, age, recoveryScore, status, housingUnit);
             handler.Add(animal);
         }
+
+        public Boolean CheckIDUniqueness(string animalID)
+        {
+            List<string> animalIDs = handler.GetAnimalIDs();
+
+            if (animalIDs.Count > 0)
+            {
+                foreach (string ID in animalIDs)
+                {
+                    if (ID == animalID)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

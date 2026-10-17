@@ -68,14 +68,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.txtSpecies.Location = new System.Drawing.Point(126, 123);
             this.txtSpecies.Name = "txtSpecies";
             this.txtSpecies.Size = new System.Drawing.Size(150, 22);
-            this.txtSpecies.TabIndex = 6;
+            this.txtSpecies.TabIndex = 7;
             // 
             // txtAge
             // 
             this.txtAge.Location = new System.Drawing.Point(126, 183);
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(150, 22);
-            this.txtAge.TabIndex = 7;
+            this.txtAge.TabIndex = 8;
             // 
             // label2
             // 
@@ -119,14 +119,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.txtRecoveryScore.Location = new System.Drawing.Point(126, 232);
             this.txtRecoveryScore.Name = "txtRecoveryScore";
             this.txtRecoveryScore.Size = new System.Drawing.Size(150, 22);
-            this.txtRecoveryScore.TabIndex = 8;
+            this.txtRecoveryScore.TabIndex = 9;
             // 
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(126, 65);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(150, 22);
-            this.txtName.TabIndex = 9;
+            this.txtName.TabIndex = 6;
             // 
             // panel1
             // 
@@ -274,32 +274,43 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string animalID = txtAnimalID.Text;
-            string name = txtName.Text;
-            string species = txtSpecies.Text;
-            string age = txtAge.Text;
-            string recoveryScore = txtRecoveryScore.Text;
+            string animalID = txtAnimalID.Text.Trim().ToUpper();
+            string name = txtName.Text.Trim();
+            string species = txtSpecies.Text.Trim();
+            string age = txtAge.Text.Trim();
+            string recoveryScore = txtRecoveryScore.Text.Trim();
 
             if (ValidateAnimal())
             {
-                (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
-                bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+                if (bl.CheckIDUniqueness(animalID))
+                {
+                    (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
+                    bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+                    MessageBox.Show("Animal added successfully.\n" +
+                                    $"Status: {status}\n" +
+                                    $"Housing Unit: {housingUnit}");
+                    ClearAnimalInputs();
+                }
+                else
+                {
+                    MessageBox.Show("Animal ID must be unique. Please try again.");
+                }
             }
         }
 
         private Boolean ValidateAnimal()
         {
-            string animalID = txtAnimalID.Text;
-            string name = txtName.Text;
-            string species = txtSpecies.Text;
-            string age = txtAge.Text;
-            string recoveryScore = txtRecoveryScore.Text;
+            string animalID = txtAnimalID.Text.Trim().ToUpper();
+            string name = txtName.Text.Trim();
+            string species = txtSpecies.Text.Trim();
+            string age = txtAge.Text.Trim();
+            string recoveryScore = txtRecoveryScore.Text.Trim();
 
             //check that animalID numeric part, age and recovery score are of type integer
             int result;
 
             if (animalID.Length != 7 ||
-                animalID.Substring(0, 3).ToUpper() != "WR-" || //Check character part of animal ID
+                animalID.Substring(0, 3) != "WR-" || //Check character part of animal ID
                 !int.TryParse(animalID.Substring(3, 4), out result))  //Validate animalID numeric part
 
             {
@@ -343,6 +354,15 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
 
             return true;
+        }
+
+        private void ClearAnimalInputs()
+        {
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
         }
     }
 }

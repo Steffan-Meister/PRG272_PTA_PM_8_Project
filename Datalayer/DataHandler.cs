@@ -18,5 +18,22 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
                 sw.WriteLine($"{a.AnimalID} | {a.Name} | {a.Species} | {a.Age} | {a.RecoveryScore} | {a.Status} | {a.HousingUnit}");
             }
         }
+
+        public List<string> GetAnimalIDs()
+        {
+            List<string> animalIDs = new List<string>();
+            if (File.Exists(filepath))
+            {
+                using (StreamReader sr = new StreamReader(filepath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        animalIDs.Add(line.Substring(0, line.IndexOf('|') - 1));
+                    }
+                }
+            }
+            return animalIDs;
+        }
     }
 }
