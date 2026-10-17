@@ -274,7 +274,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string animalID = txtAnimalID.Text.Trim();
+            string animalID = txtAnimalID.Text.Trim().ToUpper();
             string name = txtName.Text.Trim();
             string species = txtSpecies.Text.Trim();
             string age = txtAge.Text.Trim();
@@ -282,18 +282,25 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
             if (ValidateAnimal())
             {
-                (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
-                bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
-                MessageBox.Show("Animal added successfully.\n" +
-                                $"Status: {status}\n" +
-                                $"Housing Unit: {housingUnit}");
-                ClearAnimalInputs();
+                if (bl.CheckIDUniqueness(animalID))
+                {
+                    (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
+                    bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+                    MessageBox.Show("Animal added successfully.\n" +
+                                    $"Status: {status}\n" +
+                                    $"Housing Unit: {housingUnit}");
+                    ClearAnimalInputs();
+                }
+                else
+                {
+                    MessageBox.Show("Animal ID must be unique. Please try again.");
+                }
             }
         }
 
         private Boolean ValidateAnimal()
         {
-            string animalID = txtAnimalID.Text.Trim();
+            string animalID = txtAnimalID.Text.Trim().ToUpper();
             string name = txtName.Text.Trim();
             string species = txtSpecies.Text.Trim();
             string age = txtAge.Text.Trim();
@@ -303,7 +310,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             int result;
 
             if (animalID.Length != 7 ||
-                animalID.Substring(0, 3).ToUpper() != "WR-" || //Check character part of animal ID
+                animalID.Substring(0, 3) != "WR-" || //Check character part of animal ID
                 !int.TryParse(animalID.Substring(3, 4), out result))  //Validate animalID numeric part
 
             {
