@@ -11,4 +11,3 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public Dictionary<string, int> StatusCounts { get; set; }
     }
 }
-
