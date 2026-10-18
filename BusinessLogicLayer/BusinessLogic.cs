@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer;
@@ -73,6 +74,42 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public List<Animal> GetAllAnimals()
         {
             return handler.GetAll();
+        }
+
+        public SummaryResult GetSummary()
+        {
+            SummaryCalclutator calclutator = new SummaryCalculator();
+
+            return calclutator.Calculate(GetAllAnimals());
+
+        }
+        public string GenerateSummaryReport()
+        {
+            SummaryResult result = GetSummary();
+
+            StringBuilder report = new StringBuilder();
+
+
+            report.AppendLine("BAOBAB RIDGE WILDLIFE REHABILITATION CENTRE");
+            report.AppendLine("ANIMAL SUMMARY REPORT");
+            report.AppendLine("Generate:" + DateTime.Now.ToString("yyyy - MM - dd HH: mm"));
+            report.AppendLine("----------------------------------------------------------------");
+            report.AppendLine("Total animals:" + result.TotalAnimals);
+
+            report.AppendLine("Average age (years):" + (result.AverageAge.HasValue ? result.AverageAge.Value.ToString("F2") : "N/A"));
+            report.AppendLine("-------------------------------------");
+            report.AppendLine("Animals per status");
+
+            foreach (KeyValuePair< string, int> status in result.StatusCounts)
+            {
+                report.AppendLine(status.Key + ": " + status.Value);
+
+            }
+            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "summary.txt");
+
+            System.IO.File.WriteAllText(path, report.ToString());
+
+            return report.ToString();
         }
     }
 }
