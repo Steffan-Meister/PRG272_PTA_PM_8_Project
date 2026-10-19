@@ -347,16 +347,16 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             string animalID = row.Cells["AnimalID"].Value.ToString();
             string animalName = row.Cells["Name"].Value.ToString();
 
-            DialogResult answer = MessageBox.Show("Delete" + animalName + "(ID:" + animalID + ")?\n\n" + "This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult answer = MessageBox.Show("" + animalName + "(ID:" + animalID + ")?\n\n" + "This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (answer == DialogResult.No)
             {
                 return;
             }
 
-            BusinessLogic business = new BusinessLogic();
+   
             
-            if (business.DeleteAnimal(animalID))
+            if (bl.DeleteAnimal(animalID))
             {
                 RefreshAnimalGrid();
 
