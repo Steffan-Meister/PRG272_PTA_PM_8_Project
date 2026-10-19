@@ -74,5 +74,11 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         {
             return handler.GetAll();
         }
+        // Deletes an animal by passing its ID to the data handler and returns true if the animal was deleted, or false if it was not found.
+        public bool DeleteAnimal(string animalID)
+       {
+            return handler.Delete(animalID);
+       }
+
     }
 }
