@@ -336,7 +336,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
         private void btnDelete_Click(object sender, EventArgs e)
+      //Deletes the selected animal after asking the user to confirm.
         {
+            // Check that the user has selected an animal from the table.
             if (dgvAnimals.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select an animal to delete.");
@@ -358,8 +360,10 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             
             if (bl.DeleteAnimal(animalID))
             {
+                // Reload the table so the deleted animal no longer appears.
                 RefreshAnimalGrid();
 
+                // Clear the form only if it was displaying the deleted animal.
                 if (txtAnimalID.Text.Trim().Equals(animalID, StringComparison.OrdinalIgnoreCase))
                 {
                     ClearAnimalForm();
