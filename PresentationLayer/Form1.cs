@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer;
+using System;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Remoting.Lifetime;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 {
@@ -14,7 +15,15 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         public frmMain()
         {
             InitializeComponent();
+
+            btnSaveChanges.Enabled = false;
+
+            RefreshAnimalGrid();
+
+            
         }
+
+        
         BusinessLogic bl = new BusinessLogic();
 
         private void InitializeComponent()
@@ -33,6 +42,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.label6 = new System.Windows.Forms.Label();
             this.dgvAnimals = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnSummary = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
@@ -165,10 +176,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.dgvAnimals.RowTemplate.Height = 24;
             this.dgvAnimals.Size = new System.Drawing.Size(440, 236);
             this.dgvAnimals.TabIndex = 7;
+            this.dgvAnimals.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAnimals_CellClick);
+            this.dgvAnimals.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAnimals_CellContentClick);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.btnClear);
+            this.panel2.Controls.Add(this.btnSaveChanges);
             this.panel2.Controls.Add(this.btnSummary);
             this.panel2.Controls.Add(this.btnDelete);
             this.panel2.Controls.Add(this.btnUpdate);
@@ -178,9 +193,29 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.panel2.Size = new System.Drawing.Size(732, 76);
             this.panel2.TabIndex = 8;
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(606, 40);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 6;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // btnSaveChanges
+            // 
+            this.btnSaveChanges.Location = new System.Drawing.Point(606, 14);
+            this.btnSaveChanges.Name = "btnSaveChanges";
+            this.btnSaveChanges.Size = new System.Drawing.Size(104, 23);
+            this.btnSaveChanges.TabIndex = 5;
+            this.btnSaveChanges.Text = "Save Changes";
+            this.btnSaveChanges.UseVisualStyleBackColor = true;
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
             // btnSummary
             // 
-            this.btnSummary.Location = new System.Drawing.Point(402, 13);
+            this.btnSummary.Location = new System.Drawing.Point(333, 14);
             this.btnSummary.Name = "btnSummary";
             this.btnSummary.Size = new System.Drawing.Size(246, 50);
             this.btnSummary.TabIndex = 4;
@@ -189,7 +224,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(304, 13);
+            this.btnDelete.Location = new System.Drawing.Point(235, 14);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 50);
             this.btnDelete.TabIndex = 2;
@@ -198,16 +233,17 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(201, 14);
+            this.btnUpdate.Location = new System.Drawing.Point(123, 14);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 50);
             this.btnUpdate.TabIndex = 1;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnSaveChanges_Click);
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(101, 14);
+            this.btnAdd.Location = new System.Drawing.Point(17, 14);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 50);
             this.btnAdd.TabIndex = 0;
@@ -234,6 +270,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
@@ -344,7 +381,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 txtAge.Focus();
                 return false;
             }
-            else if(!int.TryParse(recoveryScore, out result) ||
+            else if (!int.TryParse(recoveryScore, out result) ||
                     result < 0 ||
                     result > 100)
             {
@@ -356,6 +393,32 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             return true;
         }
 
+        private string editingAnimalID = null;
+
+        private void LoadAnimalEditing(string animalID)
+        {
+             Animal animal = bl.FindAnimal(animalID);
+             if (animal == null)
+             {
+                 MessageBox.Show("Animal ID not found.");
+                 return;
+             }
+
+             editingAnimalID = animal.AnimalID;
+
+             txtAnimalID.Text = animal.AnimalID;
+             txtName.Text = animal.Name;
+             txtSpecies.Text = animal.Species;
+             txtAge.Text = animal.Age.ToString();
+             txtRecoveryScore.Text = animal.RecoveryScore.ToString();
+
+             txtAnimalID.ReadOnly = true;
+             btnAdd.Enabled = false;
+             btnSaveChanges.Enabled = true;
+            
+
+            
+        }
         private void ClearAnimalInputs()
         {
             txtAnimalID.Clear();
@@ -363,6 +426,125 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             txtSpecies.Clear();
             txtAge.Clear();
             txtRecoveryScore.Clear();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchID = txtSearch.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(searchID))
+            {
+                MessageBox.Show("Please enter an Animal ID.");
+                return;
+            }
+
+            LoadAnimalEditing(searchID);
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(editingAnimalID))
+            {
+                MessageBox.Show("Please select an animal to update.");
+                return;
+            }
+
+
+            if (!ValidateAnimal())
+                return;
+
+            try
+            {
+                bl.UpdateAnimal(
+                    editingAnimalID,
+                    txtName.Text.Trim(),
+                    txtSpecies.Text.Trim(),
+                    int.Parse(txtAge.Text),
+                    int.Parse(txtRecoveryScore.Text));
+
+                MessageBox.Show("Animal updated successfully!");
+
+                RefreshAnimalGrid();
+                ClearAnimalForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating animal: " + ex.Message);
+            }
+            
+            
+
+            
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearAnimalForm();
+        }
+
+        private void ClearAnimalForm()
+        {
+            editingAnimalID = null;
+
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtSearch.Clear();
+
+            txtAnimalID.ReadOnly = false;
+
+            btnAdd.Enabled = true;
+            btnSaveChanges.Enabled = false;
+
+            dgvAnimals.ClearSelection();
+
+            txtAnimalID.Focus();
+        }
+
+        private void RefreshAnimalGrid()
+        {
+            dgvAnimals.DataSource = null;
+            dgvAnimals.DataSource = bl.GetAllAnimals();
+
+            dgvAnimals.ReadOnly = true;
+            dgvAnimals.AllowUserToAddRows = false;
+            dgvAnimals.AllowUserToDeleteRows = false;
+            dgvAnimals.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            dgvAnimals.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void dgvAnimals_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            string animalID = dgvAnimals
+                .Rows[e.RowIndex]
+                .Cells[0]
+                .Value.ToString();
+
+            LoadAnimalEditing(animalID);
+        }
+
+        private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            string animalID =
+                dgvAnimals.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+            MessageBox.Show("Selected Animal ID: " + animalID);
+
+            LoadAnimalEditing(animalID);
         }
     }
 }

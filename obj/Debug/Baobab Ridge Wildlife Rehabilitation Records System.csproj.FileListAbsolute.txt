@@ -19,3 +19,15 @@ C:\Users\user\Desktop\New folder\obj\Debug\Baobab Ridge Wildlife Rehabilitation 
 C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
 C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
 C:\Users\user\Desktop\New folder\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\LENOVO\Desktop\UPDATE\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
+C:\Users\LENOVO\Desktop\UPDATE\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\LENOVO\Desktop\UPDATE\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.AssemblyReference.cache
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.frmMain.resources
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.PresentationLayer.frmSummary.resources
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Properties.Resources.resources
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.GenerateResource.cache
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\LENOVO\Desktop\UPDATE\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb

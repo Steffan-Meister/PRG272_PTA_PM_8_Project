@@ -24,6 +24,8 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnSaveChanges;
+        private System.Windows.Forms.Button btnClear;
     }
 }
         
