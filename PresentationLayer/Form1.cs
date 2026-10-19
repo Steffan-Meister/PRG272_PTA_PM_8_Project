@@ -334,6 +334,50 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 }
             }
         }
+        private void btnDelete_Click(object sender, EventArgs e)
+      //Deletes the selected animal after asking the user to confirm.
+        {
+            // Check that the user has selected an animal from the table.
+            if (dgvAnimals.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an animal you want to delete.");
+                return;
+            }
+            DataGridViewRow row = dgvAnimals.SelectedRows[0];
+
+            string animalID = row.Cells["AnimalID"].Value.ToString();
+            string animalName = row.Cells["Name"].Value.ToString();
+
+            DialogResult answer = MessageBox.Show("" + animalName + "(ID:" + animalID + ")?\n\n" + "This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (answer == DialogResult.No)
+            {
+                return;
+            }
+
+   
+            
+            if (bl.DeleteAnimal(animalID))
+            {
+                // Reload the table so the deleted animal no longer appears.
+                RefreshAnimalGrid();
+
+                // Clear the form only if it was displaying the deleted animal.
+                if (txtAnimalID.Text.Trim().Equals(animalID, StringComparison.OrdinalIgnoreCase))
+                {
+                    ClearAnimalForm();
+                }
+
+                MessageBox.Show("Animal deleted successfully.");
+
+            }
+            else
+            {
+                MessageBox.Show("The animal could not be found");
+                RefreshAnimalGrid();
+            }
+            
+        }
 
         private Boolean ValidateAnimal()
         {
