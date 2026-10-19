@@ -341,7 +341,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             // Check that the user has selected an animal from the table.
             if (dgvAnimals.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select an animal to delete.");
+                MessageBox.Show("Please select an animal you want to delete.");
                 return;
             }
             DataGridViewRow row = dgvAnimals.SelectedRows[0];
