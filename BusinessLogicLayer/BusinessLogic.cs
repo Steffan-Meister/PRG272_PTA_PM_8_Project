@@ -79,18 +79,21 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             handler.Update(a);
         }
 
-        //retrieves all animal records from the text file and returns them as a list
-        public List<Animal> GetAllAnimals()
+        /*Loads every well-formed record and also reports how many malformed
+          lines had to be skipped while reading the file.*/
+        public List<Animal> GetAllAnimals(out int skippedLines)
         {
-            return handler.GetAll();
+            return handler.GetAll(out skippedLines);
         }
+
 
         // Gets all animals and calculates the summary figures.
         public SummaryResult GetSummary()
         {
             SummaryCalculator calculator = new SummaryCalculator();
+            int skippedLines;
 
-            return calculator.Calculate(GetAllAnimals());
+            return calculator.Calculate(GetAllAnimals(out skippedLines));
 
         }
         // Creates the summary report and saves it to summary.txt.

@@ -300,6 +300,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.Controls.Add(this.panel1);
             this.Name = "frmMain";
             this.Text = "Main";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).EndInit();
@@ -616,7 +617,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         private void RefreshAnimalGrid()
         {
             dgvAnimals.DataSource = null;
-            dgvAnimals.DataSource = bl.GetAllAnimals();
+           
 
             dgvAnimals.ReadOnly = true;
             dgvAnimals.AllowUserToAddRows = false;
@@ -656,5 +657,21 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
             LoadAnimalEditing(animalID);
         }
-    }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            int skippedLines;
+            dgvAnimals.DataSource = bl.GetAllAnimals(out skippedLines);
+
+            if ( skippedLines > 0)
+            {
+                string lineText = skippedLines == 1 ? "line was" : "lines were";
+                MessageBox.Show(
+                    skippedLines + " malformed " + lineText + " skipped while loading the animal records.",
+                    "Malformed Records",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+    }   
 }
