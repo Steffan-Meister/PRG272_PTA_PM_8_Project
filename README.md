@@ -90,40 +90,33 @@ the status + species to a housing unit:
 
 | Recovery Score | Status |
 |----------------|--------|
-| 0–20 | Critical |
-| 21–40 | Stable |
-| 41–60 | Recovering |
-| 61–80 | Improving |
-| 81–100 | Ready for Release |
+| 0–19 | Critical |
+| 20–39 | Serious |
+| 40–59 | Stable |
+| 60-79 | Recovering |
+| 80-100 | Release-Ready |
 
-| Condition | Housing unit |
-|-----------|--------------|
-| Status is Critical | Intensive Care Unit |
-| Species looks like a bird | Aviary |
-| Species looks like a reptile | Reptile Habitat |
-| Species looks like a mammal | Mammal Enclosure |
-| Anything else | General Enclosure |
 
-## Error handling
+## File format
+Animals.txt stores animal details in pipe delimited format.
+Eg.WR-0001|Thabo|Western Penguin|3|84|Release-Ready|Pre-Release Camp
+Summary.txt stores total animals, average age, average recovery score and grouping of animals by status.
+Eg.
 
-All file reads, appends, rewrites and the summary write are wrapped in
-`DataHandler`. Missing files/folders, files in use (`IOException`) and
-permission problems (`UnauthorizedAccessException`) are shown as a friendly
-message and the program keeps running. Test by setting `animals.txt` to
-read-only or opening it in another program while the app is running.
+Baobab Ridge Wildlife Rehabilitation Records System
+Summary Report
+Generated: 2026-10-14 06:59:18
 
-Malformed lines in `animals.txt` (wrong number of fields, a non-numeric
-age or recovery score, or an ID that is not in the `WR-0000` format) are
-skipped instead of crashing the program. They are not shown in the grid,
-and the user is told once (after the first load that skipped something)
-how many lines were ignored. The skipped lines are dropped the next time
-the file is rewritten (an update or delete).
+Total animals: 1
+Average age: 3.00
+Average recovery score: 20.00
+
+Animals per status:
+Critical: 1
+Stable: 0
+Recovering: 0
+Improving: 0
+Ready for Release: 0
 
 ## Known limitations
-
-- The validation, classification and summary layouts are **assumed** because the
-  official Section 3, 4 and 5.2 rules were not supplied.
-- Species-to-housing matching uses keywords; an unusual species name falls back
-  to "General Enclosure".
-- The summary report is displayed on a separate form.
 - Data is stored in plain pipe-delimited text; there is no database.
