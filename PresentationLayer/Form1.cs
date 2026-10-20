@@ -230,6 +230,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnUpdate
             // 
@@ -343,6 +344,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 MessageBox.Show("Please select an animal you want to delete.");
                 return;
             }
+
             DataGridViewRow row = dgvAnimals.SelectedRows[0];
 
             string animalID = row.Cells["AnimalID"].Value.ToString();
