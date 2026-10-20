@@ -324,13 +324,32 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             {
                 if (bl.CheckIDUniqueness(animalID))
                 {
-                    (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
-                    bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
-                    MessageBox.Show("Animal added successfully.\n" +
-                                    $"Status: {status}\n" +
-                                    $"Housing Unit: {housingUnit}");
-                    ClearAnimalForm();
-                    RefreshAnimalGrid();
+                    try
+                    {
+                        (string status, string housingUnit) = bl.ClassifyAnimal(int.Parse(txtRecoveryScore.Text));
+                        bl.AddAnimal(animalID, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+                        MessageBox.Show("Animal added successfully.\n" +
+                                        $"Status: {status}\n" +
+                                        $"Housing Unit: {housingUnit}");
+                        ClearAnimalForm();
+                        RefreshAnimalGrid();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        MessageBox.Show("Error adding animal. File not found.");
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show("Error adding animal. File is open in another program.");
+                    }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        MessageBox.Show("Error adding animal. You don't have permission to access the file.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error adding animal. An unkown error occurred.");
+                    }
                 }
                 else
                 {
@@ -377,28 +396,46 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 return;
             }
 
-   
-            
-            if (bl.DeleteAnimal(animalID))
-            {
-                // Reload the table so the deleted animal no longer appears.
-                RefreshAnimalGrid();
 
-                // Clear the form only if it was displaying the deleted animal.
-                if (txtAnimalID.Text.Trim().Equals(animalID, StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                if (bl.DeleteAnimal(animalID))
                 {
-                    ClearAnimalForm();
+                    // Reload the table so the deleted animal no longer appears.
+                    RefreshAnimalGrid();
+
+                    // Clear the form only if it was displaying the deleted animal.
+                    if (txtAnimalID.Text.Trim().Equals(animalID, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ClearAnimalForm();
+                    }
+
+                    MessageBox.Show("Animal deleted successfully.");
+
                 }
-
-                MessageBox.Show("Animal deleted successfully.");
-
+                else
+                {
+                    MessageBox.Show("The animal could not be found");
+                    RefreshAnimalGrid();
+                }
             }
-            else
+            catch (FileNotFoundException ex)
             {
-                MessageBox.Show("The animal could not be found");
-                RefreshAnimalGrid();
+                MessageBox.Show("Error deleting animal. File not found.");
             }
-            
+            catch (IOException ex)
+            {
+                MessageBox.Show("Error deleting animal. File is open in another program.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show("Error deleting animal. You don't have permission to access the file.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting animal. An unkown error occurred.");
+            }
+
         }
 
 
@@ -528,14 +565,26 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 RefreshAnimalGrid();
                 ClearAnimalForm();
             }
-            catch (Exception ex)
+            catch (FileNotFoundException ex)
             {
-                MessageBox.Show("Error updating animal: " + ex.Message);
+                MessageBox.Show("Error updating animal. File not found.");
             }
-            
-            
+            catch(IOException ex)
+            {
+                MessageBox.Show("Error updating animal. File is open in another program.");
+            }
+            catch(UnauthorizedAccessException ex)
+            {
+                MessageBox.Show("Error updating animal. You don't have permission to access the file.");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error updating animal. An unkown error occurred.");
+            }
 
-            
+
+
+
         }
 
         private void btnClear_Click(object sender, EventArgs e)
