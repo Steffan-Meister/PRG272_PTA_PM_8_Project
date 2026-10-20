@@ -610,7 +610,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         private void RefreshAnimalGrid()
         {
             dgvAnimals.DataSource = null;
-           
+            dgvAnimals.DataSource = bl.GetAllAnimals().Item1;
 
             dgvAnimals.ReadOnly = true;
             dgvAnimals.AllowUserToAddRows = false;
