@@ -221,6 +221,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             this.btnSummary.TabIndex = 4;
             this.btnSummary.Text = "Display Summary";
             this.btnSummary.UseVisualStyleBackColor = true;
+            this.btnSummary.Click += new System.EventHandler(this.btnSummary_Click);
             // 
             // btnDelete
             // 

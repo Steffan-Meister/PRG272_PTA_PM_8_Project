@@ -82,7 +82,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return handler.GetAll();
         }
 
-
+        // Gets all animals and calculates the summary figures.
         public SummaryResult GetSummary()
         {
             SummaryCalculator calculator = new SummaryCalculator();
@@ -90,6 +90,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return calculator.Calculate(GetAllAnimals());
 
         }
+        // Creates the summary report and saves it to summary.txt.
         public string GenerateSummaryReport()
         {
             SummaryResult result = GetSummary();
@@ -106,7 +107,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             report.AppendLine("Average age (years):" + (result.AverageAge.HasValue ? result.AverageAge.Value.ToString("F2") : "N/A"));
             report.AppendLine("-------------------------------------");
             report.AppendLine("Animals per status");
-
+           
+            // Add the number of animals recorded under each status.
             foreach (KeyValuePair< string, int> status in result.StatusCounts)
             {
                 report.AppendLine(status.Key + ": " + status.Value);
