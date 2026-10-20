@@ -7,7 +7,7 @@ managing wildlife admitted to the Baobab Ridge Rehabilitation centre.
 
 | Name | Student number |
 |------|----------------|
-| Tsakani Mawelela | 604879_ |
+| Tsakani Mawelela | 604879 |
 | Steffan Konrad Meister | 603597 |
 | Iman Madikoane | 603524 |
 | Tshireletso Gopane | 600559 |
