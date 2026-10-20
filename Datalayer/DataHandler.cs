@@ -12,6 +12,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
     internal class DataHandler
     {
         string filepath = @"animals.txt";
+        //Format and add animal to textfile
         public void Add(Animal a)
         {
             using (StreamWriter sw = new StreamWriter(filepath, true))
@@ -22,8 +23,6 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 
         public Animal FindByID(string animalID)
         {
-
-
             if (!File.Exists(filepath))
             {
                 return null;
@@ -86,6 +85,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 
             File.WriteAllLines(filepath, lines);
         }
+
+        //Get animal IDs to check for uniqueness
         public List<string> GetAnimalIDs()
         {
             List<string> animalIDs = new List<string>();

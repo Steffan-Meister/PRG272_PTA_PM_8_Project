@@ -310,6 +310,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
         }
 
+        //Validate new animal details and send to data layer for processing if valid
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string animalID = txtAnimalID.Text.Trim().ToUpper();
@@ -327,7 +328,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                     MessageBox.Show("Animal added successfully.\n" +
                                     $"Status: {status}\n" +
                                     $"Housing Unit: {housingUnit}");
-                    ClearAnimalInputs();
+                    ClearAnimalForm();
+                    RefreshAnimalGrid();
                 }
                 else
                 {
@@ -381,6 +383,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             
         }
 
+        //Validate animal details and return true or false based on whether criteria are met
         private Boolean ValidateAnimal()
         {
             string animalID = txtAnimalID.Text.Trim().ToUpper();
@@ -464,14 +467,6 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             
 
             
-        }
-        private void ClearAnimalInputs()
-        {
-            txtAnimalID.Clear();
-            txtName.Clear();
-            txtSpecies.Clear();
-            txtAge.Clear();
-            txtRecoveryScore.Clear();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
