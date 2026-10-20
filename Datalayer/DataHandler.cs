@@ -21,6 +21,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }
         }
 
+        //finds an animal by ID and returns its details, or null if not found
         public Animal FindByID(string animalID)
         {
             if (!File.Exists(filepath))
@@ -57,6 +58,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 
         }
 
+        //updates the selected animals record in the text file
         public void Update(Animal a)
         {
             string[] lines = File.ReadAllLines(filepath);
@@ -104,6 +106,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             return animalIDs;
         }
 
+        //reads all animal records from the text file and returns as a list
         public List<Animal> GetAll()
         {
             List<Animal> animals = new List<Animal>();

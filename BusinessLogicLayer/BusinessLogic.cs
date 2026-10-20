@@ -63,11 +63,13 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return true;
         }
 
+        //finds an animal in text fle using its animal id and returns its details
         public Animal FindAnimal(string animalID)
         {
             return handler.FindByID(animalID);
         }
 
+        //updates animal details and recalculates its status and housing unit based on its recovery store
         public void UpdateAnimal(string animalID, string name, string species, int age, int recoveryScore)
         {
             var result = ClassifyAnimal(recoveryScore);
@@ -77,6 +79,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             handler.Update(a);
         }
 
+        //retrieves all animal records from the text file and returns them as a list
         public List<Animal> GetAllAnimals()
         {
             return handler.GetAll();
