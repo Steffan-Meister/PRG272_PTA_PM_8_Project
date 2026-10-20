@@ -75,13 +75,13 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         {
             return handler.GetAll();
         }
-<<<<<<< HEAD
+
 
         public SummaryResult GetSummary()
         {
-            SummaryCalclutator calclutator = new SummaryCalculator();
+            SummaryCalculator calculator = new SummaryCalculator();
 
-            return calclutator.Calculate(GetAllAnimals());
+            return calculator.Calculate(GetAllAnimals());
 
         }
         public string GenerateSummaryReport()
@@ -112,13 +112,12 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 
             return report.ToString();
         }
-=======
+
         // Deletes an animal by passing its ID to the data handler and returns true if the animal was deleted, or false if it was not found.
         public bool DeleteAnimal(string animalID)
        {
             return handler.Delete(animalID);
        }
 
->>>>>>> parent of e240ab3 (Revert "Feature/delete animal")
     }
 }
