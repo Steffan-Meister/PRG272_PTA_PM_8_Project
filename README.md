@@ -112,6 +112,13 @@ permission problems (`UnauthorizedAccessException`) are shown as a friendly
 message and the program keeps running. Test by setting `animals.txt` to
 read-only or opening it in another program while the app is running.
 
+Malformed lines in `animals.txt` (wrong number of fields, a non-numeric
+age or recovery score, or an ID that is not in the `WR-0000` format) are
+skipped instead of crashing the program. They are not shown in the grid,
+and the user is told once (after the first load that skipped something)
+how many lines were ignored. The skipped lines are dropped the next time
+the file is rewritten (an update or delete).
+
 ## Known limitations
 
 - The validation, classification and summary layouts are **assumed** because the

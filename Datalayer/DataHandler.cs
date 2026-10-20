@@ -106,10 +106,14 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             return animalIDs;
         }
 
-        //reads all animal records from the text file and returns as a list
-        public List<Animal> GetAll()
+        /*Loads every well-formed record and reports how many lines had to be
+      skipped. Skipped lines are not returned, so they never reach the grid,
+      and they are dropped whenever the file is next rewritten.*/
+        public List<Animal> GetAll(out int skippedLines)
         {
             List<Animal> animals = new List<Animal>();
+
+            skippedLines = 0;
 
             if (File.Exists(filepath))
             {
@@ -119,27 +123,58 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 
                     while ((line = sr.ReadLine()) != null)
                     {
-                        string[] data = line.Split('|');
+                        Animal a;
 
-                        if (data.Length == 7)
+                        if (TryParseLine(line, out a))
                         {
-                            Animal a = new Animal(
-                                data[0].Trim(),
-                                data[1].Trim(),
-                                data[2].Trim(),
-                                int.Parse(data[3]),
-                                int.Parse(data[4]),
-                                data[5].Trim(),
-                                data[6].Trim()
-                            );
-
                             animals.Add(a);
+                        }
+                        else
+                        {
+                            skippedLines++;
                         }
                     }
                 }
             }
 
             return animals;
+        }
+
+        private bool TryParseLine(string line, out Animal animal)
+        {
+            animal = null;
+
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return false;
+            }
+
+            string[] details = line.Split('|');
+            int age;
+            int recoveryScore;
+            int idNumber;
+            string animalID = details.Length > 0 ? details[0].Trim().ToUpperInvariant() : string.Empty;
+
+            if (details.Length != 7 ||
+                animalID.Length != 7 ||
+                animalID.Substring(0, 3) != "WR-" ||
+                !int.TryParse(animalID.Substring(3, 4), NumberStyles.None, CultureInfo.InvariantCulture, out idNumber) ||
+                !int.TryParse(details[3].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out age) ||
+                !int.TryParse(details[4].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out recoveryScore))
+            {
+                return false;
+            }
+
+            animal = new Animal(
+                details[0].Trim(),
+                details[1].Trim(),
+                details[2].Trim(),
+                age,
+                recoveryScore,
+                details[5].Trim(),
+                details[6].Trim());
+
+            return true;
         }
 
         // Deletes one animal record from animals.txt using its ID and returns false if the file does not exist or the animal is not found.

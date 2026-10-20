@@ -42,3 +42,14 @@ C:\Users\tshir\Source\Repos\PRG272_PTA_PM_8_Project\obj\Debug\Baobab Ridge Wildl
 C:\Users\tshir\source\repos\PRG272_PTA_PM_8_Project\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
 C:\Users\tshir\source\repos\PRG272_PTA_PM_8_Project\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
 C:\Users\tshir\source\repos\PRG272_PTA_PM_8_Project\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.AssemblyReference.cache
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.frmMain.resources
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.PresentationLayer.frmSummary.resources
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Properties.Resources.resources
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.GenerateResource.cache
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.csproj.CoreCompileInputs.cache
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\obj\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe.config
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.exe
+C:\Users\TSAKI\OneDrive\Desktop\skipped lines\bin\Debug\Baobab Ridge Wildlife Rehabilitation Records System.pdb
