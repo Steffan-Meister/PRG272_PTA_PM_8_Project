@@ -1,5 +1,7 @@
 ﻿using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer;
+using Baobab_Ridge_Wildlife_Rehabilitation_Records_System.PresentationLayer;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Remoting.Lifetime;
@@ -359,20 +361,11 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
-        //calculate and display summary results.
+        //Display summary results form
         private void btnSummary_Click(object sender, EventArgs e)
         {
-            try
-            {
-           
-                SummaryCalculator calculator = new SummaryCalculator();
-               
-                MessageBox.Show("Summary generated successfully!", "Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error generating summary: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            frmSummary summary = new frmSummary();
+            summary.ShowDialog();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -660,8 +653,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            int skippedLines;
-            dgvAnimals.DataSource = bl.GetAllAnimals(out skippedLines);
+            (List<Animal> animals, int skippedLines) = bl.GetAllAnimals();
+            dgvAnimals.DataSource = animals;
 
             if ( skippedLines > 0)
             {

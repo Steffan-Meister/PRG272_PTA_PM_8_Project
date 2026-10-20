@@ -259,6 +259,7 @@
             this.Controls.Add(this.label1);
             this.Name = "frmSummary";
             this.Text = "Summary";
+            this.Load += new System.EventHandler(this.frmSummary_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

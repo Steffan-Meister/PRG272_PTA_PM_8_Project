@@ -81,9 +81,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 
         /*Loads every well-formed record and also reports how many malformed
           lines had to be skipped while reading the file.*/
-        public List<Animal> GetAllAnimals(out int skippedLines)
+        public (List<Animal>, int) GetAllAnimals()
         {
-            return handler.GetAll(out skippedLines);
+            return handler.GetAll();
         }
 
 
@@ -91,9 +91,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
         public SummaryResult GetSummary()
         {
             SummaryCalculator calculator = new SummaryCalculator();
-            int skippedLines;
-
-            return calculator.Calculate(GetAllAnimals(out skippedLines));
+            return calculator.Calculate(GetAllAnimals().Item1);
 
         }
         // Creates the summary report and saves it to summary.txt.

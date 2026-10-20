@@ -109,11 +109,11 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
         /*Loads every well-formed record and reports how many lines had to be
       skipped. Skipped lines are not returned, so they never reach the grid,
       and they are dropped whenever the file is next rewritten.*/
-        public List<Animal> GetAll(out int skippedLines)
+        public (List<Animal>, int) GetAll()
         {
             List<Animal> animals = new List<Animal>();
 
-            skippedLines = 0;
+            int skippedLines = 0;
 
             if (File.Exists(filepath))
             {
@@ -137,7 +137,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
                 }
             }
 
-            return animals;
+            return (animals, skippedLines);
         }
 
         private bool TryParseLine(string line, out Animal animal)
