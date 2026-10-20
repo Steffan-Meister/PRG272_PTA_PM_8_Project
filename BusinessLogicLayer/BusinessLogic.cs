@@ -82,6 +82,13 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
             return handler.GetAll();
         }
 
+        /*Loads every well-formed record and also reports how many malformed
+          lines had to be skipped while reading the file.*/
+        public List<Animal> GetAllAnimals(out int skippedLines)
+        {
+            return handler.GetAll(out skippedLines);
+        }
+
         // Gets all animals and calculates the summary figures.
         public SummaryResult GetSummary()
         {

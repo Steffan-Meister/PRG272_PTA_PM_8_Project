@@ -26,6 +26,9 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         
         BusinessLogic bl = new BusinessLogic();
 
+        //Ensures the skipped-lines message is only shown once per session.
+        private bool skipReportShown = false;
+
         private void InitializeComponent()
         {
             this.label5 = new System.Windows.Forms.Label();
@@ -566,8 +569,25 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
 
         private void RefreshAnimalGrid()
         {
+            int skippedLines;
+
             dgvAnimals.DataSource = null;
-            dgvAnimals.DataSource = bl.GetAllAnimals();
+            dgvAnimals.DataSource = bl.GetAllAnimals(out skippedLines);
+
+            //Tell the user once (not per line, and not after every refresh)
+            //that malformed lines were skipped while loading.
+            if (skippedLines > 0 && !skipReportShown)
+            {
+                skipReportShown = true;
+
+                MessageBox.Show(
+                    skippedLines + " malformed line(s) in animals.txt were skipped.\n" +
+                    "They are not shown in the grid and will be removed " +
+                    "the next time the file is saved.",
+                    "Lines Skipped",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
 
             dgvAnimals.ReadOnly = true;
             dgvAnimals.AllowUserToAddRows = false;
