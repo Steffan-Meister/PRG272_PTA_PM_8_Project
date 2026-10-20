@@ -12,8 +12,6 @@ managing wildlife admitted to the Baobab Ridge Rehabilitation centre.
 | Iman Madikoane | 603524 |
 | Tshireletso Gopane | 600559 |
 
-> Fill in the member names and student numbers before submitting.
-
 ## How to build and run
 
 1. Install **Visual Studio 2019/2022** with the **.NET desktop development**
