@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="BusinessLogicLayer\Animal.cs" />
     <Compile Include="BusinessLogicLayer\BusinessLogic.cs" />
+	  <Compile Include="BusinessLogicLayer\SummaryResult.cs" />
+	  <Compile Include="BusinessLogicLayer\SummaryCalculator.cs" />
     <Compile Include="Datalayer\DataHandler.cs" />
     <Compile Include="PresentationLayer\Form1.cs">
       <SubType>Form</SubType>

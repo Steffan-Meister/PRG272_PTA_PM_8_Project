@@ -22,7 +22,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
 
         public Animal FindByID(string animalID)
         {
-           
+
 
             if (!File.Exists(filepath))
             {
@@ -55,7 +55,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }
 
             return null;
-        
+
         }
 
         public void Update(Animal a)
@@ -136,6 +136,34 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.Datalayer
             }
 
             return animals;
+        }
+
+        // Deletes one animal record from animals.txt using its ID and returns false if the file does not exist or the animal is not found.
+        public bool Delete(string animalID)
+        {
+
+            if (!File.Exists(filepath))
+            {
+                return false;
+            }
+            List<string> lines = File.ReadAllLines(filepath).ToList();
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string[] data = lines[i].Split('|');
+
+                if (data.Length == 7 && data[0].Trim().Equals(animalID.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    // Remove only the matching animal record.
+                    lines.RemoveAt(i);
+                    File.WriteAllLines(filepath, lines);
+
+                    // Save the remaining records back to the file.
+                    return true;
+                }
+            }
+            // if no matching animal was found nothing is deleted
+            return false;
         }
     }
 }

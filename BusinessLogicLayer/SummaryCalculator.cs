@@ -1,5 +1,5 @@
 ﻿using System;
-using Sysrem.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 {
@@ -15,7 +15,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 { "Serious", 0 },
                 { "Stable", 0 },
                 { "Recovering", 0 },
-                { "Release-Ready" }
+                { "Release-Ready", 0 }
             };
             if (animals.Count == 0)
             {
@@ -39,7 +39,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
 
                 if (result.StatusCounts.ContainsKey(animal.Status))
                 {
-                    result.StatusCounts.[animal.Status]++;
+                    result.StatusCounts[animal.Status]++;
                 }
             }
             result.AverageAge = totalAge / animals.Count;
