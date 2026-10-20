@@ -363,5 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Application data files (generated at runtime by the program)
-animals.txt
 summary.txt
