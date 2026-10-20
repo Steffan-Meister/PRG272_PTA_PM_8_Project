@@ -344,10 +344,29 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
         {
             try
             {
-           
+                var animals = bl.GetAllAnimals();
                 SummaryCalculator calculator = new SummaryCalculator();
-               
-                MessageBox.Show("Summary generated successfully!", "Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SummaryResult result = calculator.Calculate(animals);
+
+                string statusText = "";
+                if (result.StatusCounts != null)
+                {
+                    foreach (var pair in result.StatusCounts)
+                    {
+                        statusText += $"\n - {pair.Key}: {pair.Value}";
+                    }
+                }
+
+                string reportText = $"Baobab Ridge Wildlife Rehabilitation Summary Report\n" +
+                                    $"Timestamp: {DateTime.Now:yyyy-MM-dd HH:mm}\n" +
+                                    $"Total Animals: {result.TotalAnimals}\n" +
+                                    $"Average Age: {result.AverageAge:F1}\n" +
+                                    $"Average Recovery Score: {result.AverageRecoveryScore:F1}\n" +
+                                    $"Status Counts:{statusText}";
+
+                File.WriteAllText("summary.txt", reportText);
+
+                MessageBox.Show(reportText, "Summary Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
