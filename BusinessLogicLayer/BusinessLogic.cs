@@ -11,6 +11,7 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
     {
         DataHandler handler = new DataHandler();
 
+        //Calculate animal status and housing unit based on recovery score
         public (string status, string housingUnit) ClassifyAnimal(int recoveryScore)
         {
             if (recoveryScore >= 0 && recoveryScore <= 19)
@@ -34,12 +35,17 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System.BusinessLogicLayer
                 return ("Release-Ready", "Pre-Release Camp");
             }
         }
+
+        /*Create new animal object based on passed user input and 
+          hand it off to the data layer for writing to disk*/
         public void AddAnimal(string animalID, string name, string species, int age, int recoveryScore, string status, string housingUnit)
         {
             Animal animal = new Animal(animalID, name, species, age, recoveryScore, status, housingUnit);
             handler.Add(animal);
         }
 
+        /*Gets animal IDs from data layer and verifies that the ID of the animal
+          that the user is attempting to add is unique*/
         public Boolean CheckIDUniqueness(string animalID)
         {
             List<string> animalIDs = handler.GetAnimalIDs();
