@@ -338,6 +338,23 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
                 }
             }
         }
+
+        //calculate and display summary results.
+        private void btnSummary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+           
+                SummaryCalculator calculator = new SummaryCalculator();
+               
+                MessageBox.Show("Summary generated successfully!", "Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error generating summary: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
       //Deletes the selected animal after asking the user to confirm.
         {
@@ -383,6 +400,8 @@ namespace Baobab_Ridge_Wildlife_Rehabilitation_Records_System
             }
             
         }
+
+
 
         //Validate animal details and return true or false based on whether criteria are met
         private Boolean ValidateAnimal()
