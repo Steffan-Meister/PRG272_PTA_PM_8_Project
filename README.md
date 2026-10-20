@@ -7,9 +7,10 @@ managing wildlife admitted to the Baobab Ridge Rehabilitation centre.
 
 | Name | Student number |
 |------|----------------|
-| _&lt;Member 1 name&gt;_ | _&lt;student number&gt;_ |
-| _&lt;Member 2 name&gt;_ | _&lt;student number&gt;_ |
-| _&lt;Member 3 name&gt;_ | _&lt;student number&gt;_ |
+| _&lt;Tsakani Mawelela&gt;_ | _&lt;604879&gt;_ |
+| _&lt;Steffan Konrad Meister&gt;_ | _&lt603597&gt;_ |
+| _&lt;Iman Madikoane&gt;_ | _&lt;603524&gt;_ |
+| _&lt;Tshireletso Gopane&gt;_ | _&lt;600559&gt;_ |
 
 > Fill in the member names and student numbers before submitting.
 
